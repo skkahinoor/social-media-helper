@@ -6,6 +6,8 @@ export default function HashtagGenerator({ user }) {
   const [niche, setNiche] = useState("travel");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
+
 
   const generateHashtags = async () => {
     if (!keyword) {
@@ -19,12 +21,16 @@ export default function HashtagGenerator({ user }) {
       const res = await axios.post(
         "http://localhost:5000/api/hashtag/generate",
         { keyword, niche },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setResult(res.data.hashtags);
     } catch (err) {
-      alert("Something went wrong");
+      if (err.response && err.response.data.message) {
+        alert(err.response.data.message);
+      } else {
+        alert("Something went wrong");
+      }
     }
 
     setLoading(false);

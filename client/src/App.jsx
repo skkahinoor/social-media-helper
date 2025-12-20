@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import Home from "./pages/Home";
 import InstagramCaption from "./pages/InstagramCaption";
@@ -15,6 +16,26 @@ function App() {
     navigate("/");
   };
 
+  // 🔥 RESTORE LOGIN AFTER REFRESH
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axios
+        .get("http://localhost:5000/api/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setUser(res.data.user);
+        })
+        .catch(() => {
+          localStorage.removeItem("token");
+        });
+    }
+  }, []);
+
   return (
     <Routes>
       <Route
@@ -23,7 +44,6 @@ function App() {
           user ? <Home user={user} /> : <LoginButton onLogin={handleLogin} />
         }
       />
-
       <Route
         path="/instagram-caption"
         element={
@@ -34,7 +54,6 @@ function App() {
           )
         }
       />
-
       <Route
         path="/hashtag-generator"
         element={

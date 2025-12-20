@@ -8,6 +8,7 @@ export default function InstagramCaption({ user }) {
   const [emoji, setEmoji] = useState("yes");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
 
   const generateCaption = async () => {
     if (!topic) {
@@ -21,12 +22,16 @@ export default function InstagramCaption({ user }) {
       const response = await axios.post(
         "http://localhost:5000/api/instagram/caption",
         { topic, tone, niche, emoji },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setResult(response.data.caption);
-    } catch (error) {
-      alert("Something went wrong");
+    } catch (err) {
+      if (err.response && err.response.data.message) {
+        alert(err.response.data.message);
+      } else {
+        alert("Something went wrong");
+      }
     }
 
     setLoading(false);

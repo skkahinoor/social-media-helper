@@ -2,7 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-
+const auth = require("../middlewares/auth");
 const router = express.Router();
 
 router.post("/google", async (req, res) => {
@@ -43,6 +43,16 @@ router.post("/google", async (req, res) => {
     console.error(error);
     res.status(401).json({ message: "Google authentication failed" });
   }
+});
+
+router.get("/me", auth, (req, res) => {
+  res.json({
+    user: {
+      name: req.user.name,
+      email: req.user.email,
+      plan: req.user.plan,
+    },
+  });
 });
 
 module.exports = router;

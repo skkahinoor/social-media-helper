@@ -17,6 +17,9 @@ app.use("/api/hashtag", hashtagRoutes);
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 
+const paymentRoutes = require("./routes/payment");
+app.use("/api/payment", paymentRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");
