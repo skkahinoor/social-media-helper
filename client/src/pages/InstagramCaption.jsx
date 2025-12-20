@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function InstagramCaption() {
+export default function InstagramCaption({ user }) {
   const [topic, setTopic] = useState("");
   const [tone, setTone] = useState("funny");
   const [niche, setNiche] = useState("travel");
@@ -20,7 +20,8 @@ export default function InstagramCaption() {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/instagram/caption",
-        { topic, tone, niche, emoji }
+        { topic, tone, niche, emoji },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
 
       setResult(response.data.caption);
@@ -69,7 +70,23 @@ export default function InstagramCaption() {
       {result && (
         <div style={{ marginTop: "15px" }}>
           <h3>Generated Caption</h3>
-          <p>{result}</p>
+
+          <textarea
+            value={result}
+            readOnly
+            rows={5}
+            style={{ width: "100%" }}
+          />
+
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(result);
+              alert("Caption copied ✅");
+            }}
+            style={{ marginTop: "10px", width: "100%" }}
+          >
+            Copy Caption
+          </button>
         </div>
       )}
     </div>
