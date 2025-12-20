@@ -1,26 +1,77 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function InstagramCaption() {
   const [topic, setTopic] = useState("");
+  const [tone, setTone] = useState("funny");
+  const [niche, setNiche] = useState("travel");
+  const [emoji, setEmoji] = useState("yes");
   const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const generateCaption = () => {
-    setResult("This is a sample Instagram caption ✨");
+  const generateCaption = async () => {
+    if (!topic) {
+      alert("Please enter a topic");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/instagram/caption",
+        { topic, tone, niche, emoji }
+      );
+
+      setResult(response.data.caption);
+    } catch (error) {
+      alert("Something went wrong");
+    }
+
+    setLoading(false);
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "500px", margin: "auto" }}>
       <h2>Instagram Caption Generator</h2>
 
       <textarea
         placeholder="Enter your topic"
         value={topic}
         onChange={(e) => setTopic(e.target.value)}
+        style={{ width: "100%", height: "80px" }}
       />
 
-      <button onClick={generateCaption}>Generate</button>
+      <label>Tone</label>
+      <select value={tone} onChange={(e) => setTone(e.target.value)}>
+        <option value="funny">Funny</option>
+        <option value="professional">Professional</option>
+        <option value="emotional">Emotional</option>
+      </select>
 
-      {result && <p>{result}</p>}
+      <label>Niche</label>
+      <select value={niche} onChange={(e) => setNiche(e.target.value)}>
+        <option value="travel">Travel</option>
+        <option value="business">Business</option>
+        <option value="fitness">Fitness</option>
+      </select>
+
+      <label>Emoji</label>
+      <select value={emoji} onChange={(e) => setEmoji(e.target.value)}>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <button onClick={generateCaption} style={{ marginTop: "10px" }}>
+        {loading ? "Generating..." : "Generate"}
+      </button>
+
+      {result && (
+        <div style={{ marginTop: "15px" }}>
+          <h3>Generated Caption</h3>
+          <p>{result}</p>
+        </div>
+      )}
     </div>
   );
 }
