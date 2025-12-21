@@ -1,5 +1,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { API_URL } from "../config/api";
 
 export default function LoginButton({ onLogin }) {
@@ -23,11 +24,21 @@ export default function LoginButton({ onLogin }) {
           onLogin(res.data.user);
         } catch (err) {
           console.error("LOGIN FAILED:", err.response?.data || err.message);
-          alert("Login failed");
+          Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: err.response?.data?.message || "Login failed. Please try again.",
+            confirmButtonColor: "#3085d6",
+          });
         }
       }}
       onError={() => {
-        alert("Google login failed");
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: "Google login failed. Please try again.",
+          confirmButtonColor: "#3085d6",
+        });
       }}
     />
   );

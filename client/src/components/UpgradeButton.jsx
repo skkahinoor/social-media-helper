@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Swal from "sweetalert2";
 import { API_URL } from "../config/api";
 
 export default function UpgradeButton() {
@@ -30,8 +30,14 @@ export default function UpgradeButton() {
           }
         );
 
-        alert("🎉 Pro activated!");
-        window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "🎉 Pro Activated!",
+          text: "Your Pro plan has been successfully activated!",
+          confirmButtonColor: "#3085d6",
+        }).then(() => {
+          window.location.reload();
+        });
       },
       theme: { color: "#3399cc" },
     };

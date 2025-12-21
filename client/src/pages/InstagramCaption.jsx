@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 import Skeleton from "../components/Skeleton";
 import { API_URL } from "../config/api";
 
@@ -14,7 +15,15 @@ export default function InstagramCaption() {
 
   const generateCaption = async () => {
     const token = localStorage.getItem("token");
-    if (!topic) return alert("Enter a topic");
+    if (!topic) {
+      Swal.fire({
+        icon: "warning",
+        title: "Required",
+        text: "Enter a topic",
+        confirmButtonColor: "#3085d6",
+      });
+      return;
+    }
 
     setLoading(true);
     try {
@@ -25,7 +34,12 @@ export default function InstagramCaption() {
       );
       setResult(res.data.caption);
     } catch (err) {
-      alert(err.response?.data?.message || "Something went wrong");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.response?.data?.message || "Something went wrong",
+        confirmButtonColor: "#3085d6",
+      });
     }
     setLoading(false);
   };
@@ -102,7 +116,13 @@ export default function InstagramCaption() {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(result);
-                alert("Copied ✅");
+                Swal.fire({
+                  icon: "success",
+                  title: "Copied!",
+                  text: "Caption copied to clipboard",
+                  timer: 1500,
+                  showConfirmButton: false,
+                });
               }}
               className="mt-2 w-full bg-green-600 text-white py-2 rounded-lg"
             >
