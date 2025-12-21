@@ -1,5 +1,5 @@
 import LoginButton from "../components/LoginButton";
-export default function Landing({ onLogin }) {
+export default function Landing({ handleLogin }) {
     return (
       <div className="bg-gradient-to-br from-blue-600 to-purple-600 text-white min-h-screen">
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
@@ -11,7 +11,7 @@ export default function Landing({ onLogin }) {
             Generate Instagram captions, hashtags & more — instantly.
           </p>
   
-          <LoginButton onLogin={onLogin} />
+          <LoginButton onLogin={handleLogin} />
   
           {/* SEO Sections */}
           <div className="mt-16 grid md:grid-cols-3 gap-6 text-left">
