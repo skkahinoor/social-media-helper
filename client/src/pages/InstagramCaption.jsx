@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Skeleton from "../components/Skeleton";
 
 export default function InstagramCaption() {
   const [topic, setTopic] = useState("");
@@ -30,9 +31,7 @@ export default function InstagramCaption() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow p-4">
-        <h2 className="text-lg font-bold mb-3">
-          Instagram Caption Generator
-        </h2>
+        <h2 className="text-lg font-bold mb-3">Instagram Caption Generator</h2>
 
         <textarea
           className="w-full border rounded-lg p-2 mb-3"
@@ -74,12 +73,23 @@ export default function InstagramCaption() {
 
         <button
           onClick={generateCaption}
-          className="w-full bg-blue-600 text-white py-3 rounded-lg"
+          className={`w-full py-3 rounded-lg text-white ${
+            loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600"
+          }`}
+          disabled={loading}
         >
           {loading ? "Generating..." : "Generate Caption"}
         </button>
 
-        {result && (
+        {/* Loading Skeleton */}
+        {loading && (
+          <div className="mt-4">
+            <Skeleton lines={5} />
+          </div>
+        )}
+
+        {/* Result */}
+        {!loading && result && (
           <div className="mt-4">
             <textarea
               className="w-full border rounded-lg p-2"

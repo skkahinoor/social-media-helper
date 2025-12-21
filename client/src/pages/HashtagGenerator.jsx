@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+import Skeleton from "../components/Skeleton";
+
 export default function HashtagGenerator() {
   const [keyword, setKeyword] = useState("");
   const [niche, setNiche] = useState("travel");
@@ -28,9 +30,7 @@ export default function HashtagGenerator() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow p-4">
-        <h2 className="text-lg font-bold mb-3">
-          Hashtag Generator
-        </h2>
+        <h2 className="text-lg font-bold mb-3">Hashtag Generator</h2>
 
         <input
           className="w-full border p-2 rounded-lg mb-3"
@@ -56,11 +56,19 @@ export default function HashtagGenerator() {
           {loading ? "Generating..." : "Generate Hashtags"}
         </button>
 
-        {result && (
+        {/* Loading Skeleton */}
+        {loading && (
+          <div className="mt-4">
+            <Skeleton lines={5} />
+          </div>
+        )}
+
+        {/* Result */}
+        {!loading && result && (
           <div className="mt-4">
             <textarea
               className="w-full border rounded-lg p-2"
-              rows={6}
+              rows={5}
               value={result}
               readOnly
             />
