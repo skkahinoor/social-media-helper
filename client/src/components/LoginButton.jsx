@@ -6,7 +6,7 @@ export default function LoginButton({ onLogin }) {
     <GoogleLogin
       onSuccess={async (credentialResponse) => {
         const res = await axios.post(
-          "http://localhost:5000/api/auth/google",
+          `${API_URL}/api/auth/google`,
           { token: credentialResponse.credential }
         );
 

@@ -17,7 +17,7 @@ export default function InstagramCaption() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/instagram/caption",
+        `${API_URL}/api/instagram/caption`,
         { topic, tone, niche, emoji },
         { headers: { Authorization: `Bearer ${token}` } }
       );

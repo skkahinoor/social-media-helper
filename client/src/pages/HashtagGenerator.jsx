@@ -16,7 +16,7 @@ export default function HashtagGenerator() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/hashtag/generate",
+        `${API_URL}/api/hashtag/generate`,
         { keyword, niche },
         { headers: { Authorization: `Bearer ${token}` } }
       );
