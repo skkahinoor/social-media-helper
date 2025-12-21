@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import Skeleton from "../components/Skeleton";
+import { API_URL } from "../config/api";
+
 
 export default function InstagramCaption() {
   const [topic, setTopic] = useState("");

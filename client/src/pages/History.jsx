@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
 
+import { API_URL } from "../config/api";
+
+
 export default function History() {
   const [history, setHistory] = useState([]);
 
@@ -9,7 +12,7 @@ export default function History() {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:5000/api/user/history", {
+      .get(`${API_URL}/api/user/history`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setHistory(res.data))

@@ -1,11 +1,13 @@
 import axios from "axios";
 
+import { API_URL } from "../config/api";
+
 export default function UpgradeButton() {
   const upgrade = async () => {
     const token = localStorage.getItem("token");
 
     const orderRes = await axios.post(
-      "http://localhost:5000/api/payment/create-order",
+      `${API_URL}/api/payment/create-order`,
       {},
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -21,7 +23,7 @@ export default function UpgradeButton() {
       order_id: orderRes.data.id,
       handler: async function (response) {
         await axios.post(
-          "http://localhost:5000/api/payment/verify",
+          `${API_URL}/api/payment/verify`,
           response,
           {
             headers: { Authorization: `Bearer ${token}` },

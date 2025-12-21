@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../config/api";
+
 
 import Skeleton from "../components/Skeleton";
 
