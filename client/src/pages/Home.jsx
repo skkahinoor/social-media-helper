@@ -40,7 +40,7 @@ export default function Home({ user }) {
       </Link>
 
       <Link to="/hashtag-generator">
-        <button style={{ width: "100%" }}>
+        <button className="bg-green-500 text-white px-4 py-2 rounded">
           Hashtag Generator
         </button>
       </Link>
