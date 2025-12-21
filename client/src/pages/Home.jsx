@@ -1,49 +1,64 @@
 import { Link, useNavigate } from "react-router-dom";
 import UpgradeButton from "../components/UpgradeButton";
+import Layout from "../components/Layout";
 
 export default function Home({ user }) {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("token"); // remove JWT
-    navigate("/"); // redirect to login
-    window.location.reload(); // reset state
+    localStorage.removeItem("token");
+    navigate("/");
+    window.location.reload();
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "auto" }}>
-      <h2>Welcome {user.name}</h2>
+    <Layout>
+      <div className="max-w-md mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-xl shadow p-4 mb-4">
+          <h2 className="text-lg font-bold">👋 Welcome, {user.name}</h2>
+          <p className="text-sm text-gray-500">{user.email}</p>
 
-      {user.plan === "free" && <UpgradeButton />}
-      {user.plan === "pro" && <p>🌟 You are a Pro user</p>}
+          {user.plan === "free" && (
+            <div className="mt-3">
+              <p className="text-sm text-gray-600 mb-2">
+                Free plan · 5 requests/day
+              </p>
+              <UpgradeButton />
+            </div>
+          )}
 
-      <button
-        onClick={logout}
-        style={{
-          marginBottom: "15px",
-          padding: "8px 12px",
-          background: "#ff4d4d",
-          color: "#fff",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        Logout
-      </button>
+          {user.plan === "pro" && (
+            <p className="mt-2 text-green-600 font-semibold">
+              🌟 Pro User (Unlimited)
+            </p>
+          )}
 
-      <h2>Select a Tool</h2>
+          <button
+            onClick={logout}
+            className="mt-4 w-full bg-red-500 text-white py-2 rounded-lg"
+          >
+            Logout
+          </button>
+        </div>
 
-      <Link to="/instagram-caption">
-        <button style={{ width: "100%", marginBottom: "10px" }}>
-          Instagram Caption Generator
-        </button>
-      </Link>
+        {/* Tools */}
+        <div className="bg-white rounded-xl shadow p-4">
+          <h3 className="text-lg font-semibold mb-3">🛠 Tools</h3>
 
-      <Link to="/hashtag-generator">
-        <button className="bg-green-500 text-white px-4 py-2 rounded">
-          Hashtag Generator
-        </button>
-      </Link>
-    </div>
+          <Link to="/instagram-caption">
+            <button className="w-full bg-blue-600 text-white py-3 rounded-lg mb-3">
+              Instagram Caption Generator
+            </button>
+          </Link>
+
+          <Link to="/hashtag-generator">
+            <button className="w-full bg-purple-600 text-white py-3 rounded-lg">
+              Hashtag Generator
+            </button>
+          </Link>
+        </div>
+      </div>
+    </Layout>
   );
 }

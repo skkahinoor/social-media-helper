@@ -6,6 +6,9 @@ import Home from "./pages/Home";
 import InstagramCaption from "./pages/InstagramCaption";
 import HashtagGenerator from "./pages/HashtagGenerator";
 import LoginButton from "./components/LoginButton";
+import History from "./pages/History";
+import Layout from "./components/Layout";
+import Landing from "./pages/Landing";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -41,9 +44,10 @@ function App() {
       <Route
         path="/"
         element={
-          user ? <Home user={user} /> : <LoginButton onLogin={handleLogin} />
+          user ? <Home user={user} /> : <Landing onLogin={handleLogin} />
         }
       />
+
       <Route
         path="/instagram-caption"
         element={
@@ -62,6 +66,12 @@ function App() {
           ) : (
             <LoginButton onLogin={handleLogin} />
           )
+        }
+      />
+      <Route
+        path="/history"
+        element={
+          user ? <History user={user} /> : <LoginButton onLogin={handleLogin} />
         }
       />
     </Routes>

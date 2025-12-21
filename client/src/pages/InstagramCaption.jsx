@@ -1,99 +1,104 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function InstagramCaption({ user }) {
+export default function InstagramCaption() {
   const [topic, setTopic] = useState("");
   const [tone, setTone] = useState("funny");
   const [niche, setNiche] = useState("travel");
   const [emoji, setEmoji] = useState("yes");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token");
 
   const generateCaption = async () => {
-    if (!topic) {
-      alert("Please enter a topic");
-      return;
-    }
+    const token = localStorage.getItem("token");
+    if (!topic) return alert("Enter a topic");
 
     setLoading(true);
-
     try {
-      const response = await axios.post(
+      const res = await axios.post(
         "http://localhost:5000/api/instagram/caption",
         { topic, tone, niche, emoji },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      setResult(response.data.caption);
+      setResult(res.data.caption);
     } catch (err) {
-      if (err.response && err.response.data.message) {
-        alert(err.response.data.message);
-      } else {
-        alert("Something went wrong");
-      }
+      alert(err.response?.data?.message || "Something went wrong");
     }
-
     setLoading(false);
   };
 
   return (
-    <div style={{ maxWidth: "500px", margin: "auto" }}>
-      <h2>Instagram Caption Generator</h2>
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow p-4">
+        <h2 className="text-lg font-bold mb-3">
+          Instagram Caption Generator
+        </h2>
 
-      <textarea
-        placeholder="Enter your topic"
-        value={topic}
-        onChange={(e) => setTopic(e.target.value)}
-        style={{ width: "100%", height: "80px" }}
-      />
+        <textarea
+          className="w-full border rounded-lg p-2 mb-3"
+          placeholder="Enter topic (e.g. sunset travel)"
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+        />
 
-      <label>Tone</label>
-      <select value={tone} onChange={(e) => setTone(e.target.value)}>
-        <option value="funny">Funny</option>
-        <option value="professional">Professional</option>
-        <option value="emotional">Emotional</option>
-      </select>
-
-      <label>Niche</label>
-      <select value={niche} onChange={(e) => setNiche(e.target.value)}>
-        <option value="travel">Travel</option>
-        <option value="business">Business</option>
-        <option value="fitness">Fitness</option>
-      </select>
-
-      <label>Emoji</label>
-      <select value={emoji} onChange={(e) => setEmoji(e.target.value)}>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-      </select>
-
-      <button onClick={generateCaption} style={{ marginTop: "10px" }}>
-        {loading ? "Generating..." : "Generate"}
-      </button>
-
-      {result && (
-        <div style={{ marginTop: "15px" }}>
-          <h3>Generated Caption</h3>
-
-          <textarea
-            value={result}
-            readOnly
-            rows={5}
-            style={{ width: "100%" }}
-          />
-
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(result);
-              alert("Caption copied ✅");
-            }}
-            style={{ marginTop: "10px", width: "100%" }}
+        <div className="grid grid-cols-2 gap-2 mb-3">
+          <select
+            className="border p-2 rounded-lg"
+            value={tone}
+            onChange={(e) => setTone(e.target.value)}
           >
-            Copy Caption
-          </button>
+            <option value="funny">Funny</option>
+            <option value="emotional">Emotional</option>
+            <option value="professional">Professional</option>
+          </select>
+
+          <select
+            className="border p-2 rounded-lg"
+            value={niche}
+            onChange={(e) => setNiche(e.target.value)}
+          >
+            <option value="travel">Travel</option>
+            <option value="business">Business</option>
+            <option value="fitness">Fitness</option>
+          </select>
         </div>
-      )}
+
+        <select
+          className="w-full border p-2 rounded-lg mb-3"
+          value={emoji}
+          onChange={(e) => setEmoji(e.target.value)}
+        >
+          <option value="yes">Include Emojis</option>
+          <option value="no">No Emojis</option>
+        </select>
+
+        <button
+          onClick={generateCaption}
+          className="w-full bg-blue-600 text-white py-3 rounded-lg"
+        >
+          {loading ? "Generating..." : "Generate Caption"}
+        </button>
+
+        {result && (
+          <div className="mt-4">
+            <textarea
+              className="w-full border rounded-lg p-2"
+              rows={5}
+              value={result}
+              readOnly
+            />
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(result);
+                alert("Copied ✅");
+              }}
+              className="mt-2 w-full bg-green-600 text-white py-2 rounded-lg"
+            >
+              Copy Caption
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
