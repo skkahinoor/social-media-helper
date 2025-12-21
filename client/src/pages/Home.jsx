@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import UpgradeButton from "../components/UpgradeButton";
-import Layout from "../components/Layout";
 
 export default function Home({ user }) {
   const navigate = useNavigate();
@@ -12,7 +11,6 @@ export default function Home({ user }) {
   };
 
   return (
-    <Layout>
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="bg-white rounded-xl shadow p-4 mb-4">
@@ -59,6 +57,5 @@ export default function Home({ user }) {
           </Link>
         </div>
       </div>
-    </Layout>
   );
 }

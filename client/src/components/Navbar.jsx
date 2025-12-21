@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import DarkModeToggle from "./DarkModeToggle";
 
-export default function Navbar() {
+export default function Navbar({ user }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,26 +17,39 @@ export default function Navbar() {
       : "text-gray-600 dark:text-gray-300";
 
   return (
-    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="text-lg font-bold text-blue-600">
-          SocialTools
-        </Link>
+    <nav className="bg-white dark:bg-gray-800 shadow px-6 py-3 flex justify-between items-center">
+      <Link to="/" className="text-xl font-bold text-blue-600">
+        SocialTools
+      </Link>
 
-        <div className="flex items-center gap-4 text-sm">
-          <Link to="/history" className={linkClass("/history")}>
-            History
-          </Link>
+      <div className="flex items-center gap-4">
+        <DarkModeToggle />
 
-          <DarkModeToggle />
+        {/* 🔐 LOGGED IN */}
+        {user && (
+          <>
+            <Link
+              to="/history"
+              className="text-gray-700 dark:text-gray-200"
+            >
+              History
+            </Link>
 
-          <button
-            onClick={logout}
-            className="bg-red-500 text-white px-3 py-1 rounded"
-          >
-            Logout
-          </button>
-        </div>
+            <button
+              onClick={logout}
+              className="bg-red-500 text-white px-3 py-1 rounded"
+            >
+              Logout
+            </button>
+          </>
+        )}
+
+        {/* 🔓 NOT LOGGED IN */}
+        {!user && (
+          <span className="text-gray-500 text-sm">
+            Login to use tools
+          </span>
+        )}
       </div>
     </nav>
   );

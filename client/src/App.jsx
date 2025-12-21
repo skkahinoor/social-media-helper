@@ -2,6 +2,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "./config/api";
+import Layout from "./components/Layout";
 
 import Home from "./pages/Home";
 import InstagramCaption from "./pages/InstagramCaption";
@@ -9,6 +10,12 @@ import HashtagGenerator from "./pages/HashtagGenerator";
 import LoginButton from "./components/LoginButton";
 import History from "./pages/History";
 import Landing from "./pages/Landing";
+
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import Terms from "./pages/legal/Terms";
+import RefundPolicy from "./pages/legal/RefundPolicy";
+import Contact from "./pages/legal/Contact";
+import About from "./pages/legal/About";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -53,43 +60,52 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          user ? <Home user={user} /> : <Landing onLogin={handleLogin} />
-        }
-      />
-
-      <Route
-        path="/instagram-caption"
-        element={
-          user ? (
-            <InstagramCaption user={user} />
-          ) : (
-            <LoginButton onLogin={handleLogin} />
-          )
-        }
-      />
-
-      <Route
-        path="/hashtag-generator"
-        element={
-          user ? (
-            <HashtagGenerator user={user} />
-          ) : (
-            <LoginButton onLogin={handleLogin} />
-          )
-        }
-      />
-
-      <Route
-        path="/history"
-        element={
-          user ? <History user={user} /> : <LoginButton onLogin={handleLogin} />
-        }
-      />
-    </Routes>
+    <Layout user={user}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            user ? <Home user={user} /> : <Landing onLogin={handleLogin} />
+          }
+        />
+  
+        <Route
+          path="/instagram-caption"
+          element={
+            user ? (
+              <InstagramCaption user={user} />
+            ) : (
+              <LoginButton onLogin={handleLogin} />
+            )
+          }
+        />
+  
+        <Route
+          path="/hashtag-generator"
+          element={
+            user ? (
+              <HashtagGenerator user={user} />
+            ) : (
+              <LoginButton onLogin={handleLogin} />
+            )
+          }
+        />
+  
+        <Route
+          path="/history"
+          element={
+            user ? <History user={user} /> : <LoginButton onLogin={handleLogin} />
+          }
+        />
+  
+        {/* 🌐 Legal Pages (Public) */}
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Layout>
   );
 }
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Layout from "../components/Layout";
 
 import { API_URL } from "../config/api";
 
@@ -20,7 +19,6 @@ export default function History() {
   }, []);
 
   return (
-    <Layout>
       <div className="max-w-3xl mx-auto">
         <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">
           History
@@ -46,6 +44,5 @@ export default function History() {
           ))}
         </div>
       </div>
-    </Layout>
   );
 }
