@@ -2,9 +2,10 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { API_URL } from "../config/api";
 
-export default function LoginButton({ handleLogin }) {
-  if (!handleLogin) {
+export default function LoginButton({ onLogin }) {
+  if (typeof onLogin !== "function") {
     console.error("❌ LoginButton missing onLogin prop");
+    return null; // STOP rendering broken login button
   }
 
   return (
@@ -18,11 +19,11 @@ export default function LoginButton({ handleLogin }) {
 
           localStorage.setItem("token", res.data.token);
 
-          // 🔥 THIS IS THE MOST IMPORTANT LINE
-          handleLogin(res.data.user);
+          // 🔥 CRITICAL
+          onLogin(res.data.user);
         } catch (err) {
+          console.error("LOGIN FAILED:", err.response?.data || err.message);
           alert("Login failed");
-          console.error(err);
         }
       }}
       onError={() => {
