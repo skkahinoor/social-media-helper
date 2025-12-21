@@ -1,5 +1,6 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import CookieBanner from "./CookieBanner";
 
 export default function Layout({ children, user }) {
   return (
@@ -7,6 +8,7 @@ export default function Layout({ children, user }) {
       <Navbar user={user} />
       <main className="flex-grow p-4">{children}</main>
       <Footer />
+      <CookieBanner />
     </div>
   );
 }
