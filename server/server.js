@@ -29,6 +29,10 @@ app.use("/api/auth", authRoutes);
 const paymentRoutes = require("./routes/payment");
 app.use("/api/payment", paymentRoutes);
 
+const dashboardRoutes = require("./routes/dashboard");
+app.use("/api/dashboard", dashboardRoutes);
+
+
 
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");
